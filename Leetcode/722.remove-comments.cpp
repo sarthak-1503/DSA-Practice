@@ -128,55 +128,38 @@ public:
     vector<string> removeComments(vector<string>& source) {
         int n = source.size();
         vector<string> ans;
+        bool comment = false;
+        string s;
 
         for(int i=0;i<n;i++)
         {
-            if(!source[i].empty())
+
+            for(int j=0;j<source[i].size();j++)
             {
-                size_t slashStar = source[i].find("/*");
-                size_t starSlash = source[i].find("*/");
-
-                if(slashStar != string::npos)
+                if(!comment && j < source[i].size()-1 && source[i][j] == '/' && source[i][j+1] == '/')
                 {
-                    if(starSlash != string::npos)
-                    {
-                        source[i].erase(source[i].begin()+slashStar,source[i].begin()+starSlash+2);
-                    }
-                    else
-                    {
-                        source[i].erase(source[i].begin()+slashStar,source[i].end());
-                    }
-                }
-                else if(starSlash != string::npos)
+                    break;
+                } 
+                else if(!comment && j < source[i].size()-1 && source[i][j] == '/' && source[i][j+1] == '*')
                 {
-                    if(slashStar == string::npos)
-                    {
-                        source[i].erase(source[i].begin(),source[i].begin()+starSlash+2);
-                    }
+                    j++;
+                    comment = true;
                 }
-
-                size_t doubleSlash = source[i].find("//");
-
-                if(doubleSlash != string::npos)
+                else if(comment && j < source[i].size()-1 && source[i][j] == '*' && source[i][j+1] == '/')
                 {
-                    source[i].erase(source[i].begin() + doubleSlash,source[i].end());
+                    j++;
+                    comment = false;
                 }
-
-                bool check = false;
-
-                for(int j=0;j<source[i].size();j++)
+                else if(!comment)
                 {
-                    if(source[i][j] != ' ')
-                    {
-                        check = true;
-                        break;
-                    }
+                    s.push_back(source[i][j]);
                 }
+            }    
 
-                if(check == true)
-                {
-                    ans.push_back(source[i]);
-                }
+            if(!comment && !s.empty())
+            {
+                ans.push_back(s);
+                s.clear();
             }
         }
 
