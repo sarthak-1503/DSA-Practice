@@ -62,45 +62,46 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-TreeNode* newnode(int x)
-{
-    TreeNode* t = new TreeNode(x);
-    t -> val = x;
-    t->left = NULL;
-    t->right = NULL;
-
-    return t;
-}
-
-void build(vector<int> preorder,vector<int> inorder,int start,int end,int index, TreeNode* &root)
-{
-    if(start > end)
-    {
-        return ;
-    }
-
-    root = newnode(preorder[index]);
-    auto k = find(inorder.begin()+start,inorder.begin()+end+1,preorder[index]);
-    int pos = k - inorder.begin();
-
-    if(k == inorder.end())
-    {
-        return ;
-    }
-
-    build(preorder,inorder,start,pos-1,index+1,root->left);
-    build(preorder,inorder,pos+1,end,index+1,root->right);
-    
-}
-
 class Solution {
 public:
-    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        
-        TreeNode* root = NULL;
-        build(preorder,inorder,0,inorder.size()-1,0,root);
+
+    int idx ;
+
+    Solution() {
+        idx = 0;
+    }
+
+    TreeNode* newnode(int x)
+    {
+        TreeNode* t = new TreeNode(x);
+        t -> val = x;
+        t->left = NULL;
+        t->right = NULL;
+
+        return t;
+    }
+
+    TreeNode* build(vector<int> preorder,vector<int> inorder,int start,int end)
+    {
+        if(start > end)
+        {
+            return NULL;
+        }
+
+
+        TreeNode* root = newnode(preorder[idx++]);
+        int pos = find(inorder.begin()+start,inorder.begin()+end+1,root->val) - inorder.begin();
+
+        root->left = build(preorder,inorder,start,pos-1);
+        root->right = build(preorder,inorder,pos+1,end);
 
         return root;
+        
+    }
+
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        
+        return build(preorder,inorder,0,inorder.size()-1);
     }
 };
 // @lc code=end
