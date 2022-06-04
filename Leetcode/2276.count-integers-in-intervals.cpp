@@ -77,18 +77,32 @@
  */
 
 // @lc code=start
+#include<bits/stdc++.h>
+using namespace std;
+
 class CountIntervals {
 public:
+
+    map<int,int> m;
+    int cnt;
+
     CountIntervals() {
-        
+        m.clear();
+        cnt = 0;
     }
     
     void add(int left, int right) {
+        m[left] = right;
+        auto ptr = m.find(left);
+        auto ptrnext = m.upper_bound(left);
+        auto ptrprev = prev(ptr);
+
+        if(ptr != m.begin() && isOverlapping(left,right,ptr))
         
     }
     
     int count() {
-        
+        return cnt;
     }
 };
 
