@@ -80,11 +80,16 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+bool isOverlapping(int a1,int b1,int a2,int b2)
+{
+    return ((a1 >= a2 && a1 <= b2) || (a2 >= a1 && a2 <= b1));
+}
+
 class CountIntervals {
 public:
 
-    map<int,int> m;
-    int cnt;
+    map<long,long> m;
+    long cnt;
 
     CountIntervals() {
         m.clear();
@@ -96,9 +101,62 @@ public:
         auto ptr = m.find(left);
         auto ptrnext = m.upper_bound(left);
         auto ptrprev = prev(ptr);
+        int initLeft = left;
+        int initRight = right;
+        int flag = 0;
 
-        if(ptr != m.begin() && isOverlapping(left,right,ptr))
+        if(ptr != m.begin() && isOverlapping(left,right,ptrprev->first,ptrprev->second))
+        {
+            flag = 1;
+
+            if(right <= ptrprev->second)
+            {
+                m.erase(initLeft);
+                return ;
+            }
+            else
+            {
+                m.erase(ptrprev->first);
+                m[min((long)left,ptrprev->first)] = max((long)right,ptrprev->second);
+                cnt += (ptrprev->second - min((long)left,ptrprev->first) - (ptrprev->second - ptrprev->first));
+                left = ptrprev->second + 1;
+            }
+        }
+
+        if(ptrnext != m.end() && isOverlapping(left,right,ptrnext->first,ptrnext->second))
+        {
+            flag = 1;
+
+            if(right >= ptrnext->second)
+            {
+                cnt += ((right - left) - (ptrnext->second - ptrnext->first));
+                m.erase(initLeft);
+                return ;
+            }
+            else
+            {
+                m.erase(ptrnext->first);
+                m[min((long)left,ptrnext->first)] = max((long)right,ptrnext->second);
+                cnt += (max((long)right,ptrnext->second) - ptrnext->first - (ptrnext->second - ptrnext->first));
+                right = ptrnext->first - 1;
+            }
+        }
+
+        m.erase(initLeft);
+
+        if(left > right)
+        {
+            return ;
+        }
+
+        m[left] = right;
         
+        if(flag == 0)
+        {
+            cnt += (right - left + 1);
+        }
+
+        cout<<initLeft<<" "<<initRight<<" "<<cnt<<"\n";
     }
     
     int count() {
@@ -110,7 +168,7 @@ public:
  * Your CountIntervals object will be instantiated and called as such:
  * CountIntervals* obj = new CountIntervals();
  * obj->add(left,right);
- * int param_2 = obj->count();
+ * int param_2 = obj->count(); 
  */
 // @lc code=end
 
