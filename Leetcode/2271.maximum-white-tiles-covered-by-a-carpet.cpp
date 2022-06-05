@@ -92,7 +92,14 @@ public:
             
             if(i)
             {
-                ans = max(ans,cnt[index-1]-cnt[i-1]-max((long)tiles[index-1][1]-a[i]-carpetLen+1,(long)0));
+                if(index < n && a[index] == a[i] + carpetLen-1)
+                {
+                    ans = max(ans,cnt[index-1]-cnt[i-1]+1);
+                }
+                else
+                {
+                    ans = max(ans,cnt[index-1]-cnt[i-1]-max((long)tiles[index-1][1]-a[i]-carpetLen+1,(long)0));
+                }
             }
             else
             {
@@ -100,7 +107,8 @@ public:
                 {
                     if(index < n && a[index] == a[i] + carpetLen-1)
                     {
-                        ans = max(ans,cnt[index]-max((long)tiles[index][1]-a[i]-carpetLen+1,(long)0));
+                        ans = max(ans,cnt[index-1]+1);
+                        // -max((long)tiles[index][1]-a[i]-carpetLen
                     }
                     else
                     {
@@ -109,7 +117,7 @@ public:
                 }
             }
             
-            cout<<ans<<" "<<i<<"\n";
+            // cout<<ans<<" "<<i<<"\n";
         }
         
         return ans;
