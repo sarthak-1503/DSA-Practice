@@ -5,9 +5,14 @@ using namespace std;
 
 int solve(vector<int> &nums,int index,vector<int> &dp)
 {
-    if(index <= 1)
+    if(index == 0)
     {
         return nums[index];
+    }
+    
+    if(index < 0)
+    {
+        return 0;
     }
     
     if(dp[index] != -1)
@@ -15,7 +20,7 @@ int solve(vector<int> &nums,int index,vector<int> &dp)
         return dp[index];
     }
     
-    int last = max(solve(nums,index-2,dp),solve(nums,index-3,dp)) + nums[index];
+    int last = solve(nums,index-2,dp) + nums[index];
     int secondlast = solve(nums,index-1,dp);
     
     return dp[index] = max(last,secondlast);

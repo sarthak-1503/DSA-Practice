@@ -11,25 +11,15 @@ int maximumNonAdjacentSum(vector<int> &nums){
     
     if(n > 1)
     {
-        dp[1] = nums[1];
+        dp[1] = max(nums[1],nums[0]);
     }
     
     for(int i=2;i<n;i++)
     {
         dp[i] = max(dp[i],dp[i-2] + nums[i]);
         
-        if(i >= 3)
-        {
-            dp[i] = max(dp[i],dp[i-3] + nums[i]);
-        }
+        dp[i] = max(dp[i],dp[i-1]);
     }
     
-    int temp = INT_MIN;
-    
-    if(n > 1)
-    {
-        temp = dp[n-2];
-    }
-    
-    return max(temp,dp[n-1]);
+    return dp[n-1];
 }
