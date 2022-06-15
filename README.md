@@ -1,1 +1,3 @@
-## Solutions to the Leetcode Questions, Codechef and Codeforces Contest Solutions, and Codestudio DSA Problems Solutions.
+## Solutions to the DSA Problems on different platforms.
+
+
