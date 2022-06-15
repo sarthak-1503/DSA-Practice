@@ -34,7 +34,6 @@ int getMaxPathSum(vector<vector<int>> &matrix)
     
     for(int i=0;i<n;i++)
     {
-//         vector<vector<int>> dp(m,vector<int> (n,-1));
         ma = max(ma,(long long)maxSum(matrix,0,i,m,n,dp));
     }
     
