@@ -57,7 +57,20 @@ using namespace std;
 class Solution {
 public:
     int maxProduct(vector<int>& nums) {
-        
+        int n = nums.size();
+        int currMax = 1, currMin = 1;
+        int ans = INT_MIN;
+
+        for(int num : nums)
+        {
+            int temp = currMax*num;
+            currMax = max(num, max(currMax*num, currMin*num));
+            currMin = min(num, min(temp, currMin*num));
+
+            ans = max(ans,currMax);
+        }
+
+        return ans;
     }
 };
 // @lc code=end
