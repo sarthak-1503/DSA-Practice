@@ -1,3 +1,7 @@
+
+// * @lc app=leetcode id=2285 lang=cpp
+// @lc code=start
+
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -24,3 +28,5 @@ public:
         return ans;
     }
 };
+
+// @lc code=end
